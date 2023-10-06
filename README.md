@@ -7,8 +7,9 @@
 NanaOS is OS for ComputerCraft / CC:Tweaked Developed by K-Nana. **Check it Out:**
 - **Be Simple.** NanaOS has been developed with a design that is easy to understand even for first-time users.
 - **Be Elegant.** NanaOS has been developed with an elegant design that makes it interesting to use.
-- **Open-Source.** NanaOS under the MIT license. You can use this OS for anything you want, provided you keep the copyright notice. (For the full license, Click [Here](LICENSE)
-If you want to know more, you can check the wiki [Here](wiki).
+- **Open-Source.** NanaOS under the MIT license. You can use this OS for anything you want, provided you keep the copyright notice. (For the full license, Click [Here](LICENSE))
+
+If you want to know more, you can check the wiki [Here](https://github.com/k-nanairo/NanaOS/wiki).
 
 ## Install
 Installer is W.I.P. I'm sorry, Please wait.
