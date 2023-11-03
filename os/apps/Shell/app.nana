@@ -1,0 +1,4 @@
+{
+  shortCut = true,
+  mainFile = "rom/programs/shell.lua",
+}
