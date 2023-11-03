@@ -16,4 +16,5 @@ NanaOSはシンプル、エレガント、オープンソースなComputerCraft/
 
 ## 著作権
 SHA2 ソースコード: https://pastebin.com/gsFrNjbt
+
 他のソースコードは、K-NanaがMIT Licenseに基づいて提供されます。
