@@ -1,4 +1,4 @@
-# NanaOS [W.I.P]
+# NanaOS [Alpha]
 > Don't like complicated things? If so, then it's for you.
 
 **Simple, Elegant and Open-Source OS For ComputerCraft / CC:Tweaked**
@@ -17,3 +17,7 @@ If you want to know more, you can check the wiki [Here](https://github.com/k-nan
 Installer is W.I.P. I'm sorry, Please wait.
 
 If you want to use it, you'll need to download the source code zip and copy and paste it into a directory on your computer.
+
+## Copyright
+SHA2 Source Code: https://pastebin.com/gsFrNjbt
+Other source code is provided by K-Nana under the MIT License.
