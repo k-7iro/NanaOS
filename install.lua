@@ -60,17 +60,20 @@ term.setTextColor(colors.white)
 print("[ (2/4) Create First Account ]")
 print("Enter the Name")
 term.write("> ")
+local name
 repeat
-local name = read()
+    name = read()
 until name ~= ""
+local pass1
+local pass2
 repeat
     print("Enter the Password")
     print("Do not enter to disable (not recommended) Password")
     term.write("> ")
-    local pass1 = read("*")
+    pass1 = read("*")
     print("Retype the Password")
     term.write("> ")
-    local pass2 = read("*")
+    pass2 = read("*")
 until pass1 == pass2
 term.clear()
 term.setCursorPos(1,1)
@@ -84,7 +87,6 @@ fs.delete("github.lua")
 fs.copy("downloads/NanaOS/os", "os")
 fs.copy("downloads/NanaOS/startup.lua", "startup.lua")
 fs.delete("downloads")
-shell.setDir("")
 local hash = require("os/sha2")
 fs.makeDir("os/users")
 fs.makeDir("os/users/"..name)
