@@ -34,7 +34,7 @@ end
 function clock()
     while true do
         while dShell == multishell.getCurrent() do
-            time = textutils.formatTime(os.time()).." Day "..os.day()
+            time = textutils.formatTime(os.time(), true).." Day "..os.day()
             paintutils.drawLine(#time+1,sizeY,sizeX-10,sizeY,colors.lightGray)
             term.setCursorPos(sizeX-1,sizeY)
             term.write("  ")
