@@ -10,7 +10,7 @@
 function pressKey()
     while true do
         local e, bt, h = os.pullEvent("key")
-        if bt == 28 and not h then
+        if (bt == 28 or bt == 257) and not h then
             return
         end
     end
