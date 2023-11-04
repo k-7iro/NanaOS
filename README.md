@@ -14,9 +14,9 @@ NanaOS is OS for ComputerCraft / CC:Tweaked Developed by K-Nana. **Check it Out:
 If you want to know more, you can check the wiki [Here](https://github.com/k-nanairo/NanaOS/wiki).
 
 ## Install
-Installer is W.I.P. I'm sorry, Please wait.
+Run This Command on the Advanced Computer / Turtle / Pocket Computer:
 
-If you want to use it, you'll need to download the source code zip and copy and paste it into a directory on your computer.
+`wget run https://raw.githubusercontent.com/k-nanairo/NanaOS/main/install.lua`
 
 ## Copyright
 SHA2 Source Code: https://pastebin.com/gsFrNjbt
