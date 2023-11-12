@@ -21,7 +21,4 @@ Run This Command on the Advanced Computer / Turtle / Pocket Computer:
 ## Copyright
 SHA2 Source Code: https://pastebin.com/gsFrNjbt
 
-GitHub Repository Installer:
-https://pastebin.com/wPtGKMam
-
 Other source code is provided by K-Nana under the MIT License.
