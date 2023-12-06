@@ -8,6 +8,7 @@
 ]]
 
 -- Config
+
 local maincol = colors.lightBlue
 local subcol = colors.blue
 local accentcol1 = colors.lime
@@ -18,7 +19,7 @@ local monocol2 = colors.lightGray
 local monocol3 = colors.gray
 local monocol4 = colors.black
 
-local cripboard = {}
+local clipboard = {}
 local cut = false
 
 function write(text, x, y, tcol, bgcol)
@@ -33,11 +34,25 @@ function extension(name)
     for i=1,#name do
         local char = string.sub(name, #name+1-i, #name+1-i)
         if char == "." then
-            return string.upper(result)
+            return result
         elseif char == "/" then
             break
         else
             result = char..result
+        end
+    end
+end
+
+function cutExtension(name)
+    local result = ""
+    for i=1,#name do
+        local char = string.sub(name, i, i)
+        if char == "." then
+            return result
+        elseif char == "/" then
+            result = ""
+        else
+            result = result..char
         end
     end
 end
@@ -65,7 +80,7 @@ function valueSwitch(list, svalue)
     return list
 end
 
-function loadDir(dir, selected, scroll, ctrl, property)
+function loadDir(dir, selected, scroll, ctrl, property, menu)
     local Height = 6
     local sizeX,sizeY = term.getSize()
     local fileList = fs.list(dir)
@@ -80,7 +95,7 @@ function loadDir(dir, selected, scroll, ctrl, property)
     table.sort(fileList, sort)
     term.setBackgroundColor(monocol1)
     term.clear()
-    paintutils.drawFilledBox(1, 2, sizeX, Height-2, maincol)
+    paintutils.drawFilledBox(1, 2, sizeX, 4, maincol)
     paintutils.drawFilledBox(3, 3, sizeX-1, 3, monocol1)
     write("Exproler", 1, 1, monocol4, monocol1)
     if dir ~= "" or property then
@@ -89,14 +104,10 @@ function loadDir(dir, selected, scroll, ctrl, property)
         write("\24", 2, 3, monocol2, monocol1)
     end
     write("X", sizeX, 1, warncol, monocol1)
-    if fs.isReadOnly(dir) then
-        write("Can't edit in the rom", 5, 4, warncol, maincol)
-    elseif property then
+    if property then
         write(property.."'s Property", 5, 4, subcol, maincol)
-    else
-        write("New Dir", 2, 4, monocol1, accentcol1)
-        write("New File", 10, 4, monocol1, accentcol1)
     end
+    write("Menu... ", sizeX-10, 4, monocol1, accentcol1)
     if property then
         if fs.isDir(fs.getDir(dir)) then _dir = "root/"..dir.."/"..property else _dir = "root/"..property end
     elseif dir == "" then
@@ -121,11 +132,13 @@ function loadDir(dir, selected, scroll, ctrl, property)
         write("is Writable", 1, 8, monocol4, monocol1)
         if attribute["isReadOnly"] then write("No", 14, 8, monocol2, monocol1)
         else write("Yes", 14, 8, monocol2, monocol1) end
-        write("Modify Time", 1, 9, monocol4, monocol1)
-        write(os.date("%a %b %d %Y",attribute["modifed"]), 14, 9, monocol2, monocol1)
-        write("Changeable (Click to Change)", 1, 10, accentcol2, monocol1)
-        write("Name", 1, 11, monocol4, monocol1)
-        write(property, 6, 11, monocol2, monocol1)
+        if not fs.isReadOnly(dir.."/"..property) then
+            write("Modify Time", 1, 9, monocol4, monocol1)
+            write(os.date("%a %b %d %Y",attribute["modifed"]), 14, 9, monocol2, monocol1)
+            write("Changeable (Click to Change)", 1, 11, accentcol2, monocol1)
+            write("Name", 1, 12, monocol4, monocol1)
+            write(property, 6, 12, monocol2, monocol1)
+        end
     else
         write("Name", 3, 5, monocol3, monocol1)
         write("\149", math.floor(sizeX/2)-3, 5, monocol2, monocol1)
@@ -152,17 +165,17 @@ function loadDir(dir, selected, scroll, ctrl, property)
                     term.write(fileList[i+scroll-(Height-1)])
                     write(withUnit(fs.getSize(dir.."/"..fileList[i+scroll-(Height-1)])).."B", sizeX-4, i, monocol2, nil)
                     if extension(fileList[i+scroll-(Height-1)]) == "LUA" then
-                        write("Lua Source Code", math.floor(sizeX/2)-2, i, monocol2, monocol)
+                        write("Lua Source", math.floor(sizeX/2)-2, i, monocol2, monocol)
                     elseif extension(fileList[i+scroll-(Height-1)]) == "TXT" then
                         write("Text File", math.floor(sizeX/2)-2, i, monocol2, monocol)
                     elseif extension(fileList[i+scroll-(Height-1)]) == "NFP" then
-                        write("Simple Image", math.floor(sizeX/2)-2, i, monocol2, monocol)
+                        write("CC Image", math.floor(sizeX/2)-2, i, monocol2, monocol)
                     elseif extension(fileList[i+scroll-(Height-1)]) == "NIT" then
-                        write("Advance Image", math.floor(sizeX/2)-2, i, monocol2, monocol)
+                        write("NanaImage", math.floor(sizeX/2)-2, i, monocol2, monocol)
                     elseif not extension(fileList[i+scroll-(Height-1)]) then
                         write("Unknown File", math.floor(sizeX/2)-2, i, monocol2, monocol)
                     else
-                        write(extension(fileList[i+scroll-(Height-1)]).." File", math.floor(sizeX/2)-2, i, monocol2, monocol)
+                        write(string.upper(extension(fileList[i+scroll-(Height-1)])).." File", math.floor(sizeX/2)-2, i, monocol2, monocol)
                     end
                 end
             else
@@ -173,9 +186,47 @@ function loadDir(dir, selected, scroll, ctrl, property)
             write("There are no files in",1,Height,monocol2,monocol1)
             write("this Directory ...",1,Height+1)
         end
+        if menu and not property then
+            if fs.isReadOnly(dir) then
+                write("New File", sizeX-10, 5, monocol2, monocol3)
+                write("New Dir ", sizeX-10, 6, monocol2, monocol3)
+            else
+                write("New File", sizeX-10, 5, monocol1, monocol3)
+                write("New Dir ", sizeX-10, 6, monocol1, monocol3)
+            end
+            if selected and selected[1] then
+                if selected[2] then
+                    write("Property", sizeX-10, 7, monocol2, monocol3)
+                    write("Edit    ", sizeX-10, 8, monocol2, monocol3)
+                    write("Run     ", sizeX-10, 9, monocol2, monocol3)
+                else
+                    write("Property", sizeX-10, 7, monocol1, monocol3)
+                    write("Edit    ", sizeX-10, 8, monocol1, monocol3)
+                    if (not fs.isDir(selected[1])) and string.lower(extension(selected[1])) == "lua" then
+                        write("Run     ", sizeX-10, 9, monocol1, monocol3)
+                    else
+                        write("Run     ", sizeX-10, 9, monocol2, monocol3)
+                    end
+                end
+                write("Delete  ", sizeX-10, 10, monocol1, monocol3)
+                write("Copy    ", sizeX-10, 11, monocol1, monocol3)
+                write("Cut     ", sizeX-10, 12, monocol1, monocol3)
+            else
+                write("Property", sizeX-10, 7, monocol2, monocol3)
+                write("Edit    ", sizeX-10, 8, monocol2, monocol3)
+                write("Open    ", sizeX-10, 9, monocol2, monocol3)
+                write("Delete  ", sizeX-10, 10, monocol2, monocol3)
+                write("Copy    ", sizeX-10, 11, monocol2, monocol3)
+                write("Cut     ", sizeX-10, 12, monocol2, monocol3)
+            end
+            if clipboard and clipboard[1] and (not fs.isReadOnly(dir)) then
+                write("Paste   ", sizeX-10, 13, monocol1, monocol3)
+            else
+                write("Paste   ", sizeX-10, 13, monocol2, monocol3)
+            end
+        end
     end
     while true do
-        -- CEvent, CButton, CX, CY
         local event, cbt, cx, cy = os.pullEvent()
         if event == "mouse_click" and (cbt == 1 or cbt == 2) then
             if cx == sizeX and cy == 1 then
@@ -186,16 +237,67 @@ function loadDir(dir, selected, scroll, ctrl, property)
                 else
                     loadDir(fs.getDir(dir), {}, 0, ctrl)
                 end
-            elseif cx >= 2 and cx <= 8 and cy == 4 and (not fs.isReadOnly(dir)) and (not property) then
-                fs.makeDir(dir.."/NewDirectory")
-                loadDir(dir,selected,scroll,ctrl)
-            elseif cx >= 10 and cx <= 17 and cy == 4 and (not fs.isReadOnly(dir)) and (not property) then
+            elseif cx >= sizeX-11 and cx <= sizeX-3 and cy == 4 and (not property) then
+                loadDir(dir, selected, scroll, ctrl, property, not menu)
+            elseif cx >= sizeX-11 and cx <= sizeX-3 and cy == 5 and (not fs.isReadOnly(dir)) and menu then
                 local file = fs.open(dir.."/NewFile.txt", "w")
                 file.close()
                 loadDir(dir,selected,scroll,ctrl)
+            elseif cx >= sizeX-11 and cx <= sizeX-3 and cy == 6 and (not fs.isReadOnly(dir)) and menu then
+                fs.makeDir(dir.."/NewDirectory")
+                loadDir(dir,selected,scroll,ctrl)
+            elseif cx >= sizeX-11 and cx <= sizeX-3 and cy == 7 and (not fs.isReadOnly(dir)) and menu and selected[1] and (not selected[2]) then
+                loadDir(dir, {}, scroll, ctrl, fs.getName(selected[1]))
+            elseif cx >= sizeX-11 and cx <= sizeX-3 and cy == 8 and (not fs.isReadOnly(dir)) and menu and selected[1] and (not selected[2]) then
+                if string.lower(extension(selected[1])) == "nfp" then
+                    shell.switchTab(shell.openTab("rom/programs/fun/advanced/paint.lua", selected[1]))
+                else
+                    shell.switchTab(shell.openTab("rom/programs/edit.lua", selected[1]))
+                end
+                loadDir(dir,selected,scroll,ctrl)
+            elseif cx >= sizeX-11 and cx <= sizeX-3 and cy == 9 and (not fs.isReadOnly(dir)) and menu and selected[1] and (not selected[2]) then
+                shell.switchTab(shell.openTab(selected[1]))
+                loadDir(dir,selected,scroll,ctrl)
+            elseif cx >= sizeX-11 and cx <= sizeX-3 and cy == 10 and (not fs.isReadOnly(dir)) and menu and selected[1] then
+                for _, i in ipairs(selected) do 
+                    fs.delete(i)
+                end
+                loadDir(dir,selected,scroll,ctrl)
+            elseif cx >= sizeX-11 and cx <= sizeX-3 and cy == 11 and menu and selected[1] then
+                clipboard = selected
+                cut = false
+                loadDir(dir,{},scroll,ctrl)
+            elseif cx >= sizeX-11 and cx <= sizeX-3 and cy == 12 and menu and selected[1] then
+                clipboard = selected
+                cut = true
+                loadDir(dir,{},scroll,ctrl)
+            elseif cx >= sizeX-11 and cx <= sizeX-3 and cy == 13 and (not fs.isReadOnly(dir)) and menu and clipboard[1] then
+                if cut then
+                    for key, value in ipairs(clipboard) do
+                        local fName = fs.getName(value)
+                        local fCnt = 0
+                        while fs.exists(dir.."/"..fName) do
+                            fCnt = fCnt+1
+                            fName = cutExtension(fs.getName(value)).."_("..fCnt..")."..extension(fs.getName(value))
+                        end
+                        fs.move(value, dir.."/"..fName)
+                    end
+                    clipboard = {}
+                else
+                    for key, value in ipairs(clipboard) do
+                        local fName = fs.getName(value)
+                        local fCnt = 0
+                        while fs.exists(dir.."/"..fName) do
+                            fCnt = fCnt+1
+                            fName = cutExtension(fs.getName(value)).."_("..fCnt..")."..extension(fs.getName(value))
+                        end
+                        fs.copy(value, dir.."/"..fName)
+                    end
+                end
+                loadDir(dir, selected, scroll, ctrl)
             elseif cy >= Height then
                 if property then
-                    if cy == 11 then
+                    if cy == 12 and (not fs.isReadOnly(dir.."/"..property)) then
                         paintutils.drawLine(6,11,sizeX,11)
                         term.setCursorPos(6,11)
                         local ans = read(nil,nil,nil,property)
@@ -221,7 +323,7 @@ function loadDir(dir, selected, scroll, ctrl, property)
                                 elseif fs.isDir(dir.."/"..fileList[scroll+cy-(Height-1)]) then
                                     loadDir(dir.."/"..fileList[scroll+cy-(Height-1)], {}, scroll, ctrl)
                                 else
-                                    if extension(fileList[scroll+cy-(Height-1)]) == "NFP" then
+                                    if string.lower(extension(fileList[scroll+cy-(Height-1)])) == "nfp" then
                                         shell.switchTab(shell.openTab("rom/programs/fun/advanced/paint.lua", dir.."/"..fileList[scroll+cy-(Height-1)]))
                                     else
                                         shell.switchTab(shell.openTab("rom/programs/edit.lua", dir.."/"..fileList[scroll+cy-(Height-1)]))
@@ -238,7 +340,7 @@ function loadDir(dir, selected, scroll, ctrl, property)
                                 elseif fs.isDir(fileList[scroll+cy-(Height-1)]) then
                                     loadDir(fileList[scroll+cy-(Height-1)], {}, scroll, ctrl)
                                 else
-                                    if extension(fileList[scroll+cy-(Height-1)]) == "NFP" then
+                                    if string.lower(extension(fileList[scroll+cy-(Height-1)])) == "nfp" then
                                         shell.switchTab(shell.openTab("rom/programs/fun/advanced/paint.lua", dir.."/"..fileList[scroll+cy-(Height-1)]))
                                     else
                                         shell.switchTab(shell.openTab("rom/programs/edit.lua", dir.."/"..fileList[scroll+cy-(Height-1)]))
@@ -251,7 +353,7 @@ function loadDir(dir, selected, scroll, ctrl, property)
                         end
                     end
                 else
-                    loadDir(dir,{},scroll,ctrl)
+                    loadDir(dir, {}, scroll, ctrl)
                 end
             end
         elseif event == "mouse_scroll" then
@@ -261,38 +363,51 @@ function loadDir(dir, selected, scroll, ctrl, property)
                 if scroll > 0 then loadDir(dir, selected, scroll-1, ctrl) end
             end
         elseif event == "key" then
-            if cbt == 29 and not ctrl then
+            if cbt == keys.leftCtrl and not ctrl then
                 loadDir(dir, selected, scroll, true, property)
-            elseif cbt == 211 then
+            elseif cbt == keys.delete then
                 for key,value in ipairs(selected) do
                     if not fs.isReadOnly(value) then
                         fs.delete(value)
                     end
                 end
                 loadDir(dir, {}, scroll, ctrl, property)
-            elseif cbt == 45 and ctrl then
-                cripboard = selected
+            elseif cbt == keys.x and ctrl then
+                clipboard = selected
                 cut = true
-            elseif cbt == 46 and ctrl then
-                cripboard = selected
+            elseif cbt == keys.c and ctrl then
+                clipboard = selected
                 cut = false
-            elseif cbt == 47 and ctrl then
+            elseif cbt == keys.v and ctrl and (not fs.isReadOnly(dir)) then
                 if cut then
-                    for key, value in ipairs(cripboard) do
-                        fs.move(value,dir.."/"..fs.getName(value))
+                    for key, value in ipairs(clipboard) do
+                        local fName = fs.getName(value)
+                        local fCnt = 0
+                        while fs.exists(dir.."/"..fName) do
+                            fCnt = fCnt+1
+                            fName = cutExtension(fs.getName(value)).."_("..fCnt..")."..extension(fs.getName(value))
+                        end
+                        fs.move(value, dir.."/"..fName)
                     end
-                    cripboard = {}
+                    clipboard = {}
                 else
-                    for key, value in ipairs(cripboard) do
-                        fs.copy(value,dir.."/"..fs.getName(value))
+                    for key, value in ipairs(clipboard) do
+                        local fName = fs.getName(value)
+                        local fCnt = 0
+                        while fs.exists(dir.."/"..fName) do
+                            fCnt = fCnt+1
+                            fName = cutExtension(fs.getName(value)).."_("..fCnt..")."..extension(fs.getName(value))
+                        end
+                        fs.copy(value, dir.."/"..fName)
                     end
                 end
                 loadDir(dir, selected, scroll, ctrl)
             end
-        elseif event == "key_up" and cbt == 29 and ctrl then
+        elseif event == "key_up" and cbt == keys.leftCtrl and ctrl then
             loadDir(dir, selected, scroll, false, property)
         end
     end
 end
 
-loadDir("os/users/"..nanaUsr, {}, 0, false)
+nanaUsr = "K-Nana"
+loadDir("os/users/"..nanaUsr, {}, 0, false, false)

@@ -179,14 +179,14 @@ function events()
                                 multishell.setFocus(appShell)
                                 multishell.setTitle(appShell, pos["name"])
                             end
-                            parallel.waitForAll(Launch, events, redraw)
+                            parallel.waitForAll(Launch, events)
                         else
                             local function Launch()
                                 local appShell = multishell.launch({shell=shell, multishell=multishell, require=require, nanaUsr=nanaUsr, nanaPass=nanaPass}, "os/"..app.."/"..settings.get("mainFile", "main.lua"))
                                 multishell.setFocus(appShell)
                                 multishell.setTitle(appShell, pos["name"])
                             end
-                            parallel.waitForAll(Launch, events, redraw)
+                            parallel.waitForAll(Launch, events)
                         end
                         break
                     end

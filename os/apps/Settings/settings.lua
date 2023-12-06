@@ -56,7 +56,7 @@ function menu(ty, user)
         end
         local peri = peripheral.getNames()
         term.setCursorPos(2, 6)
-        if peri == {} then
+        if peri ~= nil then
             for i, name in ipairs(peri) do
                 print(peri)
             end
