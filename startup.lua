@@ -11,6 +11,13 @@ assert(term.isColour(), "NanaOS cannot be used on monochrome computers because i
 
 local nana = true
 
+function drawText(x,y,text,tcl,bgcl)
+    if tcl then term.setTextColor(tcl) end
+    if bgcl then term.setBackgroundColor(bgcl) end
+    term.setCursorPos(x,y)
+    term.write(text)
+end
+
 function craftOS()
     while true do
         local e, k = os.pullEvent("key")
@@ -34,7 +41,23 @@ print(os.version()..", ".._VERSION)
 print("Press Enter to Go to CraftOS (Debug Shell)")
 parallel.waitForAny(craftOS, function() os.sleep(2) end)
 if nana then
-    print("Checking Updates...")
-    -- update here
+    if http then
+        print("Checking Updates...")
+        local newVerdata = assert(load("return "..http.get("https://raw.githubusercontent.com/k-nanairo/NanaOS/main/update.nana").readAll()))()["Files"]
+        settings.load("update.nana")
+        local oldVerdata = settings.get("Files")
+        for file, hash in pairs(newVerdata) do
+            if hash ~= oldVerdata[file] then
+                print("Updating "..file.." ...")
+                local fh = fs.open(file, "w")
+                fh.write(http.get("https://raw.githubusercontent.com/k-nanairo/NanaOS/main/"..file).readAll())
+                fh.close()
+            end
+        end
+        if newVerdata ~= oldVerdata then
+            settings.set("Files", newVerdata)
+            settings.save()
+        end
+    end
     shell.run("os/login.lua")
 end
