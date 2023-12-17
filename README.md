@@ -2,6 +2,9 @@
 > Don't like complicated things? If so, then it's for you.
 
 **Simple, Elegant and Open-Source OS For ComputerCraft / CC:Tweaked**
+
+![Logo](https://github.com/k-nanairo/NanaOS/assets/104609477/412ddea3-74ab-4455-8a71-416e2f693bca)
+
 ## Other Languages
 - 日本語での説明は[こちら](README_JP.md)
 
