@@ -94,14 +94,14 @@ term.setTextColor(colors.white)
 print("[ (3/4) Install ]")
 print("Installing...")
 print("Preparing for installation...")
-local updNana = http.get("https://raw.githubusercontent.com/k-nanairo/NanaOS/main/update.nana").readAll()
+local updNana = http.get("https://raw.githubusercontent.com/k-7iro/NanaOS/main/update.nana").readAll()
 local fh = fs.open("update.nana", "w")
 fh.write(updNana)
 fh.close()
 for file, _ in pairs(assert(load("return "..updNana))()["Files"]) do
     print("Downloading "..file.." ...")
     local fh = fs.open(file, "w")
-    fh.write(http.get("https://raw.githubusercontent.com/k-nanairo/NanaOS/main/"..file).readAll())
+    fh.write(http.get("https://raw.githubusercontent.com/k-7iro/NanaOS/main/"..file).readAll())
     fh.close()
 end
 
