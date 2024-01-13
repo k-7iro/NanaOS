@@ -3,7 +3,7 @@
 
 **Simple, Elegant and Open-Source OS For ComputerCraft / CC:Tweaked**
 
-![Logo](https://github.com/k-nanairo/NanaOS/assets/104609477/412ddea3-74ab-4455-8a71-416e2f693bca)
+![Logo](https://github.com/k-7iro/NanaOS/assets/104609477/412ddea3-74ab-4455-8a71-416e2f693bca)
 
 ## Other Languages
 - 日本語での説明は[こちら](README_JP.md)
@@ -14,12 +14,12 @@ NanaOS is OS for ComputerCraft / CC:Tweaked Developed by K-Nana. **Check it Out:
 - **Be Elegant.** NanaOS has been developed with an elegant design that makes it interesting to use.
 - **Open-Source.** NanaOS is under the MIT license. You can use this OS for anything you want, provided you keep the copyright notice. (For the full license, Click [Here](LICENSE))
 
-If you want to know more, you can check the wiki [Here](https://github.com/k-nanairo/NanaOS/wiki).
+If you want to know more, you can check the wiki [Here](https://github.com/k-7iro/NanaOS/wiki).
 
 ## Install
 Run This Command on the Advanced Computer / Turtle / Pocket Computer:
 
-`wget run https://raw.githubusercontent.com/k-nanairo/NanaOS/main/install.lua`
+`wget run https://raw.githubusercontent.com/k-7iro/NanaOS/main/install.lua`
 
 ## Copyright
 SHA2 Source Code: https://pastebin.com/gsFrNjbt
