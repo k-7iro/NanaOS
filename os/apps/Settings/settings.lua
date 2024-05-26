@@ -43,10 +43,15 @@ function menu(ty, user)
         write("Change Password", 2, 6, colors.black, colors.white)
         write("Delete", 2, 7, colors.red, colors.white)
     elseif ty == "computer" then
+        settings.load("update.nana")
         write("\27", 2, 3, colors.black, colors.orange)
         write("Computer", 4, 3, colors.black, colors.lightGray)
         write("Type", 2, 4, colors.black, colors.white)
-        write("Peripherals", 2, 5, colors.black, colors.white)
+        write("NanaOS Ver", 2, 5, colors.black, colors.white)
+        write("CraftOS Ver", 2, 6, colors.black, colors.white)
+        write("Lua Ver", 2, 7, colors.black, colors.white)
+        write("ID", 2, 8, colors.black, colors.white)
+        write("Peripherals", 2, 9, colors.black, colors.white)
         if turtle then
             write("Turtle", 7, 4, colors.green, colors.white)
         elseif pocket then
@@ -54,8 +59,12 @@ function menu(ty, user)
         else
             write("Computer", 7, 4, colors.green, colors.white)
         end
+        write(settings.get("VersionName"), 13, 5, colors.orange, colors.white)
+        write(os.version(), 14, 6, colors.orange, colors.white)
+        write(_VERSION, 10, 7, colors.orange, colors.white)
+        write(os.getComputerID(), 5, 8, colors.red, colors.white)
         local peri = peripheral.getNames()
-        term.setCursorPos(2, 6)
+        term.setCursorPos(2, 10)
         if peri[1] ~= nil then
             for i, name in ipairs(peri) do
                 term.setTextColor(colors.blue)
@@ -64,6 +73,7 @@ function menu(ty, user)
                 print(" "..name)
             end
         else
+            term.setTextColor(colors.blue)
             print("Nothing")
         end
     elseif ty == "accounts" then

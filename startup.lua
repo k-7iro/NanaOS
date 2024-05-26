@@ -56,7 +56,7 @@ if nana then
         end
         if newVerdata ~= oldVerdata then
             settings.set("Files", newVerdata)
-            settings.save()
+            settings.save("update.nana")
         end
     end
     shell.run("os/login.lua")

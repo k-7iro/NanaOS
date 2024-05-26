@@ -104,7 +104,6 @@ function loadDir(dir, selected, scroll, ctrl, property, menu)
     paintutils.drawFilledBox(1, 2, sizeX, 4, maincol)
     paintutils.drawFilledBox(3, 3, sizeX-1, 3, monocol1)
     write("Exproler", 1, 1, monocol4, monocol1)
-    write("Exproler", 10, 1, monocol4, monocol1)
     if dir ~= "" or property then
         write("\24", 2, 3, subcol, monocol1)
     else
