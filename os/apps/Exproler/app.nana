@@ -1,5 +1,5 @@
 {
-  safeMode = false,
+  devMode = false,
   shortCut = false,
   mainFile = "exproler.lua",
 }

@@ -34,7 +34,7 @@ function extension(name)
     for i=1,#name do
         local char = string.sub(name, #name+1-i, #name+1-i)
         if char == "." then
-            return result
+            return string.upper(result)
         elseif char == "/" then
             break
         else
@@ -83,7 +83,13 @@ end
 function loadDir(dir, selected, scroll, ctrl, property, menu)
     local Height = 6
     local sizeX,sizeY = term.getSize()
-    local fileList = fs.list(dir)
+    local prefileList = fs.list(dir)
+    local fileList = prefileList
+    for i, file in ipairs(prefileList) do
+        if extension(file) == "NANA" then
+            table.remove(fileList, i)
+        end
+    end
     function sort(a, b)
         if fs.isDir(dir.."/"..a) and (not fs.isDir(dir.."/"..b)) then
             return true
@@ -98,6 +104,7 @@ function loadDir(dir, selected, scroll, ctrl, property, menu)
     paintutils.drawFilledBox(1, 2, sizeX, 4, maincol)
     paintutils.drawFilledBox(3, 3, sizeX-1, 3, monocol1)
     write("Exproler", 1, 1, monocol4, monocol1)
+    write("Exproler", 10, 1, monocol4, monocol1)
     if dir ~= "" or property then
         write("\24", 2, 3, subcol, monocol1)
     else

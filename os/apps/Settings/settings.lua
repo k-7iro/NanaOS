@@ -48,17 +48,20 @@ function menu(ty, user)
         write("Type", 2, 4, colors.black, colors.white)
         write("Peripherals", 2, 5, colors.black, colors.white)
         if turtle then
-            write("Turtle", 7, 4, colors.lightGray, colors.white)
+            write("Turtle", 7, 4, colors.green, colors.white)
         elseif pocket then
-            write("Pocket Computer", 7, 4, colors.lightGray, colors.white)
+            write("Pocket Computer", 7, 4, colors.green, colors.white)
         else
-            write("Computer", 7, 4, colors.lightGray, colors.white)
+            write("Computer", 7, 4, colors.green, colors.white)
         end
         local peri = peripheral.getNames()
         term.setCursorPos(2, 6)
-        if peri ~= nil then
+        if peri[1] ~= nil then
             for i, name in ipairs(peri) do
-                print(peri)
+                term.setTextColor(colors.blue)
+                term.write(peripheral.getType(name))
+                term.setTextColor(colors.lightBlue)
+                print(" "..name)
             end
         else
             print("Nothing")

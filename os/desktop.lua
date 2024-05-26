@@ -175,14 +175,14 @@ function events()
                         settings.load("os/"..app.."/app.nana")
                         if settings.get("shortCut", false) then
                             local function Launch()
-                                local appShell = multishell.launch({shell=shell, multishell=multishell, require=require, nanaUsr=nanaUsr, nanaPass=nanaPass}, settings.get("mainFile", "main.lua"))
+                                local appShell = multishell.launch({shell=shell, multishell=multishell, require=require, nanaUsr=nanaUsr, nanaPass=nanaPass, nanaAPass="os/"..app}, settings.get("mainFile", "main.lua"))
                                 multishell.setFocus(appShell)
                                 multishell.setTitle(appShell, pos["name"])
                             end
                             parallel.waitForAll(Launch, events)
                         else
                             local function Launch()
-                                local appShell = multishell.launch({shell=shell, multishell=multishell, require=require, nanaUsr=nanaUsr, nanaPass=nanaPass}, "os/"..app.."/"..settings.get("mainFile", "main.lua"))
+                                local appShell = multishell.launch({shell=shell, multishell=multishell, require=require, nanaUsr=nanaUsr, nanaPass=nanaPass, nanaAPass="os/"..app}, "os/"..app.."/"..settings.get("mainFile", "main.lua"))
                                 multishell.setFocus(appShell)
                                 multishell.setTitle(appShell, pos["name"])
                             end
