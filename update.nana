@@ -1,5 +1,5 @@
 {
-  VersionName = "Alpha-0.03a",
+  VersionName = "Alpha-0.03b",
   Files = {
     [ "os/apps/Settings/icon.nfp" ] = "88a44b3502123ac8f00e50cd37f36dad76612e2e345cd21c42bb3c2d4d6d5f4a",
     [ "os/apps/Exproler/exproler.lua" ] = "0ca79fa5317e4e74a80ea9cee952b75c418b828a0a8acec56c60bc96a0c13ebb",
@@ -9,7 +9,7 @@
     [ "os/icons/user.nfp" ] = "a85c79c25a94ab07d5ee6a37dcbf19493b9bb72cd237f01a261abad779cfd0cc",
     [ "os/apps/Shell/icon.nfp" ] = "b06ffac8e884f0fa4eb3ee346ad0af657bcb6380e6489ec9dc573d554a262007",
     [ "os/apps/Settings/app.nana" ] = "e0c0712eacec3a8da710535a1b7a199dee0e9e579bab8c2a9423bb4e9117ad87",
-    [ "startup.lua" ] = "6cdeae2056145a931d88204b053592cefbb9a62c5d0b8fc04b4c37c6c65203df",
+    [ "startup.lua" ] = "20a6916ec76cb9b84502ce8254edd5d729c2f8a06d775c9ce238ed42f571b1cb",
     [ "os/apps/Shell/app.nana" ] = "32c320eb8a415aa8f0a77586552e238015c55de8783f530d385e6f4ae3363d73",
     [ "os/icons/file.nfp" ] = "11b9f64e67f0b2c3ade84c6386509035f1796ca85b7babd6a06f9b8e357ed7ac",
     [ "os/desktop.lua" ] = "73a7e637d7240f59e545d8b209494c2dde511d6902b08ceefdfedca273f17a85",

@@ -43,7 +43,9 @@ parallel.waitForAny(craftOS, function() os.sleep(2) end)
 if nana then
     if http then
         print("Checking Updates...")
-        local newVerdata = assert(load("return "..http.get("https://raw.githubusercontent.com/k-7iro/NanaOS/main/update.nana").readAll()))()["Files"]
+        local newUpdate = assert(load("return "..http.get("https://raw.githubusercontent.com/k-7iro/NanaOS/main/update.nana").readAll()))()
+        local newVerdata = newUpdate["Files"]
+        local newName = newUpdate["VersionName"]
         settings.load("update.nana")
         local oldVerdata = settings.get("Files")
         for file, hash in pairs(newVerdata) do
@@ -56,6 +58,7 @@ if nana then
         end
         if newVerdata ~= oldVerdata then
             settings.set("Files", newVerdata)
+            settings.set("VersionName", newName)
             settings.save("update.nana")
         end
     end
