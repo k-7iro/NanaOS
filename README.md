@@ -19,7 +19,9 @@ If you want to know more, you can check the wiki [Here](https://github.com/k-7ir
 ## Install
 Run This Command on the Advanced Computer / Turtle / Pocket Computer:
 
-`wget run https://raw.githubusercontent.com/k-7iro/NanaOS/main/install.lua`
+`wget run https://raw.githubusercontent.com/k-7iro/NanaOS/release/install.lua`
+
+`wget run https://raw.githubusercontent.com/k-7iro/NanaOS/dev/install.lua`
 
 ## Copyright
 SHA2 Source Code: https://pastebin.com/gsFrNjbt
