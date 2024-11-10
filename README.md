@@ -17,6 +17,8 @@ NanaOS is OS for ComputerCraft / CC:Tweaked Developed by K-Nana. **Check it Out:
 If you want to know more, you can check the wiki [Here](https://github.com/k-7iro/NanaOS/wiki).
 
 ## Install
+> NanaOS can never be installed on a "real" computer like the one in front of you. It also cannot be installed on computers of mods other than ComputerCraft and its forks, such as OpenComputers. These are specifications, so please **DO NOT** post bugs in issues.
+
 Run This Command on the Advanced Computer / Turtle / Pocket Computer:
 
 `wget run https://raw.githubusercontent.com/k-7iro/NanaOS/main/install.lua`
